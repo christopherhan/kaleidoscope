@@ -1,0 +1,15 @@
+Node Dependencies
+-----------------
+express
+socket.io
+twitter-node
+
+Getting Started
+---------------
+1. Register your Instagram app to obtain your API keys - http://instagram.com/developer/
+2. Open app.js and modify the following variables
+	- INSTAGRAM_CLIENT
+	- INSTAGRAM_SECRET
+	- TWITTER_USERNAME
+	- TWITTER_PASSWORD
+3. Run 'node app.js' and open your browser to 127.0.0.1:3000
