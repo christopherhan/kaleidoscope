@@ -1,0 +1,116 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-image: url(/images/linen.jpg);
+	background-repeat: repeat;
+	background-attachment:fixed;
+}
+#sidebar {
+	position: fixed;
+	width: 220px;
+	color: #4a4a4a;
+	height: 100%;
+	float: left;
+	background-color: #1d1d1d;
+	border-right: solid 1px #000;
+	text-align: center;
+}
+a {
+	text-decoration:none;
+	color: #4a4a4a;
+}
+a:hover {
+	color: #df4988;
+}
+#main {
+	width: 99.5%;
+}
+#live {
+	margin-left: 220px;
+	padding-left: 40px;
+}
+#main img {
+	margin: 2px;
+}
+#logo {
+	font-size: 1.6em;
+	color: #df4988;
+	border-top: solid 2px #df4988;
+	padding-top: 15px;
+}
+#tag {
+	color:#89a2fe;
+	padding-bottom: 15px;
+	border-bottom: solid 1px #000;
+}
+
+#toggle,#learnmore, #madeby, #sharethis{
+	padding: 15px 0;
+	border-top: solid 1px #292929;
+	border-bottom: solid 1px #000;
+	font-size: 1.1em;
+}
+.set {
+	position:relative;
+	bottom:10px;
+	padding:15px 0;
+	width: 121px;
+	margin: 0 auto;
+	
+}
+.column {
+	width: 160px;
+	float: left;
+}
+#slider {
+	background-image: url(/images/slider2.png);
+	background-position: 0px -66px;
+	height: 33px;
+	width: 87px;
+	float:left;
+	position:relative;
+	bottom:8px;
+}
+.hidden {
+	display: none;
+}
+#slidecol {
+	width: 612px;
+	margin: 0 auto;
+	padding: 40px 0 40px 220px;
+	height: 100%;
+
+}
+#handle {
+	position: absolute;
+	cursor: pointer;
+	left: 40px;
+	top: 25px;
+
+	
+}
+.ui-slider-horizontal .ui-state-default {
+	background: url(/images/handle.png) no-repeat 50% 50% scroll; 
+	border: none;
+	width: 26px;
+	height: 22px;
+	position: absolute;
+	top: 3px;
+
+}
+.ui-slider {
+	background: url(/images/slide.png) no-repeat;
+	width: 176px;
+	height: 29px;
+	border: none;
+	position: relative;
+	bottom: 10px;
+
+}
+#speedctrl {
+	position: relative;
+	top: 3px;
+	left: 22px;
+	margin-top: 15px;
+}
+

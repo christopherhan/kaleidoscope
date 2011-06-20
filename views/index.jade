@@ -1,0 +1,119 @@
+script(src='socket.io/socket.io.js')
+script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js')
+script(type='text/javascript', src='http://use.typekit.com/fiq1qst.js')
+script try{Typekit.load();}catch(e){}
+script(type='text/javascript', src='javascripts/ks.js')
+link(rel='stylesheet', type='text/css', href='stylesheets/reset.css')
+script(type='text/javascript')
+	var switchTo5x=true;
+script(type='text/javascript', src='http://w.sharethis.com/button/buttons.js')
+script(type='text/javascript')
+	stLight.options({publisher:'79c174cd-eded-4f70-bfa0-d7b19d0cdbc3'});
+script(type='text/javascript')
+	var timer;
+	var num_cols;
+	var socket = new io.Socket(null,{port:3000, rememberTransport:false});
+	function create_cols() {
+		//each column is 160px wide
+		var width = $('#main').width()-$('#sidebar').width();
+		console.log($('#main').width());
+		console.log($('#sidebar').width());
+		num_cols = Math.floor(width / 160); 
+		console.log('width: ' + width);
+		for(var i=0; i<num_cols; i++) {
+			$('#live').append('<div id="column'+i+'" class="column"></div>');
+		}
+	}
+	socket.connect();
+	socket.on('connect', function() {
+		console.log('connected');
+		//use the entire screen
+		var current = 0;	 	
+		timer = setInterval(function(){
+			console.log('mode: ' + mode);
+			//console.log('speed: ' + window.speed);
+			if(mode == 'grid') {
+				$('#slidecol').addClass('hidden');
+				if($('#live').children().size() < 1) { create_cols(); }
+					var el = $('#gridqueue').children(':first-child').detach();
+					if (el && el != null) {	
+					//if grid. append to main
+						if (current >= num_cols) {
+							current = 0;
+						}
+						el.removeClass('hidden').hide().prependTo('#column'+current).slideDown(600);
+						current += 1;
+					}
+				}
+				else { //slideshow
+					if ($('#live').children().size() != 1) {
+						$('<div id="slidecol"></div>').appendTo('#main');
+
+					}
+					var el = $('#slidequeue').children(':first-child').detach();
+					if (el && el != null) {
+						$('#slidecol').removeClass('hidden');
+						el.removeClass('hidden').hide().prependTo('#slidecol').slideDown(1200);
+					}
+				}
+			}, 1500);
+	})
+	socket.on('message', function(message){ 
+		console.log('received message');
+		//console.log(message);
+		//put into the queue
+		
+		if(message.images != undefined) {
+
+			if(mode=='grid') {
+				var img = $('<div class="hidden" style="margin:2px;"><a target="_blank" href="'+message.images.standard_resolution.url+'"><img class="pic" src="'+message.images.thumbnail.url+'" title="'+message.caption.text+'" /></a></div>');
+				$(img).appendTo('#gridqueue');
+			}
+			else {
+				//append to different queue
+				var img = $('<div class="hidden"><a target="_blank" href="'+message.images.standard_resolution.url+'"><img src="'+message.images.standard_resolution.url+'" title="'+message.caption.text+'" /></a></div>');
+				$(img).appendTo('#slidequeue');
+
+			}
+
+		}
+	
+	})
+	socket.on('disconnect', function(){ //clearInterval(timer); 
+	console.log('cleared timer'); })
+
+	function filter() {
+		console.log('sending message');
+		socket.send('hate');
+
+	}
+	
+
+body
+	div#sidebar
+		div#logo.tk-league-gothic KALEIDOSCOPE
+		div#tag.tk-lobster Instagram photos in real-time
+	
+		div#toggle
+			div.set
+				img(src='images/grid.png', title='Grid View', class='menugrid', style='float:left;')
+				div#slider
+				img(src='images/slideshow.jpg', title='Slideshow', class='menuslide', style='float:left')
+
+		div#toggle.tk-league-gothic
+			a(href='http://thematicme.tumblr.com/post/6075428053/instagram-photos-in-real-time') LEARN MORE
+		div#madeby.tk-league-gothic MADE BY 
+			a(href='http://twitter.com/heeyitschris') @HEEYITSCHRIS 
+			| AND
+			a(href='http://twitter.com/cghan') @CGHAN
+
+		div#sharethis
+			div(style='margin-bottom:7px;')
+				span(class='st_twitter_hcount', displayText='Tweet')
+			span(style='padding-top:5px', class='st_facebook_hcount', displayText='Facebook')
+
+	div#main
+		div#live
+	div#gridqueue
+	div#slidequeue
+			
