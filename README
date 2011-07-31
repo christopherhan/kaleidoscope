@@ -1,3 +1,9 @@
+How It Works
+-----------------
+Listens to the real-time Twitter stream for any Instagram links. Parses out the Media ID, and sends a request to Instagram for the photo and related information.
+
+This is purely experimental. Obviously, polling Instagram on every request is extremely inefficient. Instagram has a real-time API, but subscribing to many geographies can be cumbersome since it only allows up to a 5000 meter radius.
+
 Node Dependencies
 -----------------
 express
