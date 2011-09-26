@@ -29,7 +29,6 @@ function decode(s) {
 } 
 
 // Configuration
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -64,26 +63,31 @@ io.on('connection', function(client){
 	sys.puts('connected');
 });
 
+var pattern = new RegExp('http://instagr\.am/p/([a-zA-Z0-9_-]+)/');
+var pattern2 = new RegExp('http://t\.co/([a-zA-Z0-9]+)');
+
+var options = {
+	host: 'api.instagram.com',
+	port: '443',
+	path: '',
+	method: 'GET'
+};
 twit
 	.addListener('error', function(error) {
 		console.log(error);
 	})
 	.addListener('tweet', function(tweet) {	
 		var t = eval('('+JSON.stringify(tweet)+')');
-
-		var pattern = new RegExp('http://instagr\.am/p/([a-zA-Z0-9_-]+)/')
-		var m = pattern.exec(t.text)
-		var media_id = decode(m[1])
-		
-		var options = {
-			host: 'api.instagram.com',
-			port: '443',
-			path: '/v1/media/'+media_id+'?client_id='+INSTAGRAM_CLIENT,
-			method: 'GET'
-		};
+		if (t.text != 'undefined') {
+			var m = pattern.exec(t.text);
+			
+			sys.puts('m:', m, 'text', t.text);
+			var media_id = decode(m[1]);
+		}
+		options['path'] = '/v1/media/'+media_id+'?client_id='+INSTAGRAM_CLIENT; 
 
 		var req = https.request(options, function(res) {
-			sys.puts('sending...statuscode '+res.statusCode);
+			sys.puts('sending.statuscode '+res.statusCode);
 			res.on('data', function(d) {
 				try {
 					result = JSON.parse(d);
